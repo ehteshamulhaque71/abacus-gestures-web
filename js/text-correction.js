@@ -18,10 +18,8 @@ import {
 } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3";
 
 const commandGroup1 = document.getElementById("command_group1");
-const commandGroup2 = document.getElementById("command_group2");
 const textareaGroup = document.getElementById("textarea_group");
 const keyboardGroup = document.getElementById("keyboard_group");
-const suggestionGroup = document.getElementById("suggestion_group");
 
 
 // navigation buttons
@@ -32,24 +30,20 @@ const topRightBtn = document.getElementById("top-right-btn");
 const deleteBtn = document.getElementById("delete_btn");
 const insertBtn = document.getElementById("insert_btn");
 const replaceBtn = document.getElementById("replace_btn");
-const invokeLLMBtn = document.getElementById("invoke_llm_btn");
 
 // textarea elements
 const keyboardTextArea = document.getElementById("keyboard_text_area");
 const micIcon = document.getElementById("mic_icon");
 const respeakBtn = document.getElementById("respeak_btn");
-const invokeLLMBtn2 = document.getElementById("invoke_llm_btn2");
 
 const spaceBtn = document.getElementById("space_btn");
 const backspaceBtn = document.getElementById("backspace_btn");
 
-
+// state transition functions
 function toBeginState() {
     commandGroup1.style.visibility = "hidden";
-    commandGroup2.style.visibility = "hidden";
     textareaGroup.style.visibility = "hidden";
     keyboardGroup.style.visibility = "hidden";
-    suggestionGroup.style.visibility = "hidden";
 
     topRightBtn.style.visibility = "hidden";
     topLeftBtn.style.visibility = "hidden";
@@ -59,10 +53,8 @@ toBeginState();
 
 function toTaskState() {
     commandGroup1.style.visibility = "hidden";
-    commandGroup2.style.visibility = "hidden";
     textareaGroup.style.visibility = "hidden";
     keyboardGroup.style.visibility = "hidden";
-    suggestionGroup.style.visibility = "hidden";
     topRightBtn.innerHTML = "Show Indices<sup>90</sup>";
     topRightBtn.style.visibility = "visible";
     topLeftBtn.style.visibility = "hidden";
@@ -75,10 +67,8 @@ function toTaskState() {
 
 function toFirstSelectionState() {
     commandGroup1.style.visibility = "hidden";
-    commandGroup2.style.visibility = "hidden";
     textareaGroup.style.visibility = "hidden";
     keyboardGroup.style.visibility = "hidden";
-    suggestionGroup.style.visibility = "hidden";
     topRightBtn.classList.remove("btn_highlight");
     topRightBtn.innerHTML = "Hide Indices<sup>99</sup>";
     topRightBtn.style.visibility = "visible";
@@ -93,10 +83,8 @@ function toFirstSelectionState() {
 
 function toSecondSelectionState() {
     commandGroup1.style.visibility = "hidden";
-    commandGroup2.style.visibility = "hidden";
     textareaGroup.style.visibility = "hidden";
     keyboardGroup.style.visibility = "hidden";
-    suggestionGroup.style.visibility = "hidden";
     topRightBtn.classList.remove("btn_highlight");
     topRightBtn.innerHTML = "Undo<sup>99</sup>";
     topRightBtn.style.visibility = "visible";
@@ -113,10 +101,8 @@ function toSecondSelectionState() {
 
 function toCommandSelectionState() {
     commandGroup1.style.visibility = "visible";
-    commandGroup2.style.visibility = "visible";
     textareaGroup.style.visibility = "hidden";
     keyboardGroup.style.visibility = "hidden";
-    suggestionGroup.style.visibility = "hidden";
 
     topRightBtn.classList.remove("btn_highlight");
     topRightBtn.innerHTML = "Undo<sup>99</sup>";
@@ -124,7 +110,6 @@ function toCommandSelectionState() {
     insertBtn.classList.remove("btn_highlight");
     replaceBtn.classList.remove("btn_highlight");
     deleteBtn.classList.remove("btn_highlight");
-    invokeLLMBtn.classList.remove("btn_highlight");
     topLeftBtn.classList.remove("btn_highlight");
     topLeftBtn.innerHTML = "Select Range<sup>2</sup>";
     topLeftBtn.style.visibility = "visible";
@@ -133,28 +118,15 @@ function toCommandSelectionState() {
     document.getElementById("prompt").querySelectorAll("sup").forEach((element) => {
         element.style.visibility = "hidden";
     });
-    suggestionGroup.querySelectorAll("span").forEach((element) => {
-        element.classList.remove("highlight");
-    });
 }
 
 function toSpeakTypeState() {
     commandGroup1.style.visibility = "hidden";
-    commandGroup2.style.visibility = "hidden";
     textareaGroup.style.visibility = "visible";
     keyboardGroup.style.visibility = "visible";
-    suggestionGroup.style.visibility = "hidden";
-    // commandGroup1.querySelectorAll("sup").forEach((element) => {
-    //     element.style.visibility = "hidden";
-    // })
-
-    // commandGroup2.querySelectorAll("sup").forEach((element) => {
-    //     element.style.visibility = "hidden";
-    // })
     insertBtn.classList.remove("btn_highlight");
     replaceBtn.classList.remove("btn_highlight");
     deleteBtn.classList.remove("btn_highlight");
-    invokeLLMBtn.classList.remove("btn_highlight");
     topRightBtn.classList.remove("btn_highlight");
     topRightBtn.innerHTML = "Undo<sup>99</sup>";
     topRightBtn.style.visibility = "visible";
@@ -165,23 +137,12 @@ function toSpeakTypeState() {
     keyboardTextArea.value = "|";
     respeakBtn.style.display = "none";
     respeakBtn.classList.remove("btn_highlight");
-    invokeLLMBtn2.style.display = "none";
 }
 
 function toTypingState() {
     commandGroup1.style.visibility = "hidden";
-    commandGroup2.style.visibility = "hidden";
     textareaGroup.style.visibility = "visible";
     keyboardGroup.style.visibility = "visible";
-    suggestionGroup.style.visibility = "hidden";
-    // commandGroup1.querySelectorAll("sup").forEach((element) => {
-    //     element.style.visibility = "hidden";
-    // })
-
-    // commandGroup2.querySelectorAll("sup").forEach((element) => {
-    //     element.style.visibility = "hidden";
-    // })
-
     insertBtn.classList.remove("btn_highlight");
     replaceBtn.classList.remove("btn_highlight");
 
@@ -194,27 +155,7 @@ function toTypingState() {
     topLeftBtn.style.visibility = "visible";
 
     respeakBtn.style.display = "block";
-    invokeLLMBtn2.style.display = "block";
     micIcon.classList.remove("active");
-}
-
-function toSuggestionState() {
-    commandGroup1.style.visibility = "hidden";
-    commandGroup2.style.visibility = "hidden";
-    textareaGroup.style.visibility = "hidden";
-    keyboardGroup.style.visibility = "hidden";
-    suggestionGroup.style.visibility = "visible";
-
-    topRightBtn.classList.remove("btn_highlight");
-    topRightBtn.innerHTML = "Undo<sup>99</sup>";
-    topRightBtn.style.visibility = "visible";
-
-    topLeftBtn.classList.remove("btn_highlight");
-    topLeftBtn.innerHTML = "Enter<sup>90</sup>";
-    topLeftBtn.style.visibility = "visible";
-    for (let i = 0; i < suggestionList.length; i++) {
-        document.getElementById(`sug${i + 1}`).innerHTML = `${suggestionList[i]}<sup>${i + 1}</sup>`;
-    }
 }
 
 const keyboardMapping = {
@@ -249,42 +190,37 @@ const keyboardMapping = {
 let startTime = null;
 let endTime = null;
 let selectionTime = null;
-let totalTime = null;
 let selectionTries = 0;
-let correctionTries = 0;
-let operations = []
-let aggregatedSelectionTime = 0;
-let aggregatedCorrectionTime = 0;
-let aggregatedTotalTime = 0;
-let aggregatedSelectionTries = 0;
-let aggregatedCorrectionTries = 0;
-let aggregatedFailCount = 0;
+let operations = [];
 const recognition = new window.webkitSpeechRecognition;
 
 let gestureRecognizer = GestureRecognizer;
-let frequency = 2500;
-let duration = 100;
 let webcamRunning = false;
 const videoHeight = "360px";
 let tempLetter = null;
 let currentLetter = null;
 let currentState = "begin state";
 let command = 0;
-let index = 0;
-const lst = ['Time to go shipping', 'Hello World', 'Sleep tight', 'Great sleep', 'How are you'];
-let typedSentence = lst[0];
 let changeThreshold = 6;
 let itr = 0;
 let recognizedSpeech = "";
-let error_sentence = "";
-let index_str = 1;
 let selectedIndex = null;
 let selectedIndex2 = null;
-let suggestionList = [];
-let selectedSuggestion = "";
 
-// let correctionLog = { "log": {} }
-// correctionLog = []
+
+var audio = document.getElementById('Audio');
+const video = document.getElementById("webcam");
+const canvasElement = document.getElementById("output_canvas");
+const canvasCtx = canvasElement.getContext("2d");
+const mainWindow = document.getElementById("main_window");
+const tergetContainer = document.getElementById("target_container");
+
+const beginBtn = document.getElementById("begin_btn");
+
+var trial_order = [0];
+var trial_number = 0;
+
+
 
 const HAND_CONNECTIONS = [
     [0, 1], [1, 2], [2, 3], [3, 4],    // Thumb
@@ -296,241 +232,24 @@ const HAND_CONNECTIONS = [
 ];
 
 var dataset = {
-
-
     0: {
-        "target_sentence": "I am going to class today. I am going to class today. I am going to class today.",
-        "original_sentence": "I am going to class today. I am going to class today. I am going to calss today.",
-        "target": "I am going to class today. I am going to class today. I am going to class today.",
-        "action": "replace",
-        "index": [16],
-        "prompt": "I am going to class today. I am going to class today. I am going to calss today."
-    },
-
-
-    1: {
-        "target_sentence": "I will talk to you soon, Theresa. I will talk to you soon, Theresa. I will talk to you soon, Theresa. I will talk to you soon, Theresa. I will talk to you soon, Theresa. I will talk to you soon, Theresa. I will talk to you soon, Theresa.",
-        "original_sentence": "I will thank to you soon, Theresa.",
-        "target": "I will talk to you soon, Theresa. I will talk to you soon, Theresa. I will talk to you soon, Theresa. I will talk to you soon, Theresa. I will talk to you soon, Theresa. I will talk to you soon, Theresa. I will talk to you soon, Theresa.",
-        "action": "replace",
-        "index": [16],
-        "prompt": "I will talk to you soon, Theresa. I will talk to you soon, Theresa. I will thank to you soon, Theresa. I will talk to you soon, Theresa. I will talk to you soon, Theresa. I will talk to you soon, Theresa. I will talk to you soon, Theresa."
-    },
-
-
-    2: {
-        "target_sentence": "Every enron emplyee had an internal email address. Every enron emplyee had an internal email address. Every enron emplyee had an internal email address. Every enron emplyee had an internal email address. Every enron emplyee had an internal email address.",
-        "original_sentence": "Every enron emplyee had an internal email address. Every enron emplyee had an internal email address. Every enron emplyee had an internal email address. Every enron emplyee had an internal email address. Every enron emplyee had an internal email address.",
-        "target": "Every enron emplyee had an internal email address. Every enron emplyee had an internal email address. Every enron emplyee had an internal email address. Every enron emplyee had an internal email address. Every enron emplyee had an internal email address.",
-        "action": "replace",
-        "index": [29],
-        "prompt": "Every enron emplyee had an internal email address. Every enron emplyee had an internal email address. Every enron emplyee had an internal email address. Every enron emplyee had an internet email address. Every enron emplyee had an internal email address."
-    },
-
-    3: {
-        "target_sentence": "Time to go shopping for school. Time to go shopping for school. Time to go shopping for school. Time to go shopping for school. Time to go shopping for school.",
-        "original_sentence": "Time to go shipping for school.",
-        "target": "Time to go shopping for school. Time to go shopping for school. Time to go shopping for school. Time to go shopping for school. Time to go shopping for school.",
-        "action": "replace",
-        "index": [9],
-        "prompt": "Time to go shopping for school. Time to go shipping for school. Time to go shopping for school. Time to go shopping for school. Time to go shopping for school."
-    },
-
-    4: {
-        "target_sentence": "The results were expected back Tuesday. The results were expected back Tuesday. The results were expected back Tuesday. The results were expected back Tuesday. The results were expected back Tuesday. The results were expected back Tuesday. The results were expected back Tuesday.",
-        "original_sentence": "The results were executed back Tuesday.",
-        "target": "The results were expected back Tuesday. The results were expected back Tuesday. The results were expected back Tuesday. The results were expected back Tuesday. The results were expected back Tuesday. The results were expected back Tuesday. The results were expected back Tuesday.",
-        "action": "replace",
-        "index": [33],
-        "prompt": "The results were expected back Tuesday. The results were expected back Tuesday. The results were expected back Tuesday. The results were expected back Tuesday. The results were expected back Tuesday. The results were executed back Tuesday. The results were expected back Tuesday."
-    },
-
-    6: {
-        "target_sentence": "The meteor shower was incredible last night. The meteor shower was incredible last night. The meteor shower was incredible last night.",
-        "original_sentence": "The meteor shower was increduble last night.",
-        "target": "The meteor shower was incredible last night. The meteor shower was incredible last night. The meteor shower was incredible last night.",
-        "action": "replace",
-        "index": [11],
-        "prompt": "The meteor shower was incredible last night. The meteor shower was increduble last night. The meteor shower was incredible last night."
-    },
-
-    7: {
-        "target_sentence": "The jets will try to control the ball and the clock against the Rams. The jets will try to control the ball and the clock against the Rams. The jets will try to control the ball and the clock against the Rams.",
-        "original_sentence": "The jets will try to cintrol the ball and the clock against the Rams.",
-        "target": "The jets will try to control the ball and the clock against the Rams. The jets will try to control the ball and the clock against the Rams. The jets will try to control the ball and the clock against the Rams.",
-        "action": "replace",
-        "index": [19],
-        "prompt": "The jets will try to control the ball and the clock against the Rams. The jets will try to cintrol the ball and the clock against the Rams. The jets will try to control the ball and the clock against the Rams."
-    },
-
-    8: {
-        "target_sentence": "What do you think about it? What do you think about it? What do you think about it? What do you think about it? What do you think about it? What do you think about it? What do you think about it?",
-        "original_sentence": "What do you thinl about it?",
-        "target": "What do you think about it? What do you think about it? What do you think about it? What do you think about it? What do you think about it? What do you think about it? What do you think about it?",
-        "action": "replace",
-        "index": [21],
-        "prompt": "What do you think about it? What do you think about it? What do you think about it? What do you thinl about it? What do you think about it? What do you think about it? What do you think about it?"
-    },
-
-    9: {
-        "target_sentence": "There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages.",
-        "original_sentence": "There were freqwuent electicity and water shortages.",
-        "target": "There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages.",
-        "action": "replace",
-        "index": [30],
-        "prompt": "There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were freqwuent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages."
-    },
-
-    10: {
-        "target_sentence": "The senate would require them to create a US subsidaiary. The senate would require them to create a US subsidaiary. The senate would require them to create a US subsidaiary. The senate would require them to create a US subsidaiary. The senate would require them to create a US subsidaiary.",
-        "original_sentence": "The senate would rewuire them to create a US subsidaiary.",
-        "target": "The senate would require them to create a US subsidaiary. The senate would require them to create a US subsidaiary. The senate would require them to create a US subsidaiary. The senate would require them to create a US subsidaiary. The senate would require them to create a US subsidaiary.",
-        "action": "replace",
-        "index": [23],
-        "prompt": "The senate would require them to create a US subsidaiary. The senate would require them to create a US subsidaiary. The senate would rewuire them to create a US subsidaiary. The senate would require them to create a US subsidaiary. The senate would require them to create a US subsidaiary."
-    },
-
-    11: {
-        "target_sentence": "Was it a car wreck? Was it a car wreck? Was it a car wreck? Was it a car wreck? Was it a car wreck?",
-        "original_sentence": "Was is it a car wreck?",
-        "target": "Was it a car wreck? Was it a car wreck? Was it a car wreck? Was it a car wreck? Was is it a car wreck?",
-        "action": "delete",
-        "index": [21],
-        "prompt": "Was it a car wreck? Was it a car wreck? Was it a car wreck? Was it a car wreck? Was is it a car wreck?"
-    },
-
-    12: {
-        "target_sentence": "Treasa knows the details. Treasa knows the details. Treasa knows the details. Treasa knows the details. Treasa knows the details. Treasa knows the details.",
-        "original_sentence": "Treasa knows the the details.",
-        "target": "Treasa knows the the details. Treasa knows the details. Treasa knows the details. Treasa knows the details. Treasa knows the details. Treasa knows the details.",
-        "action": "delete",
-        "index": [3],
-        "prompt": "Treasa knows the the details. Treasa knows the details. Treasa knows the details. Treasa knows the details. Treasa knows the details. Treasa knows the details."
-    },
-
-    13: {
-        "target_sentence": "There are several business issues outstanding. There are several business issues outstanding. There are several business issues outstanding. There are several business issues outstanding.",
-        "original_sentence": "There are several business issues outstanding.",
-        "target": "There are several business issues outstanding. There are several business issues outstanding. There are several business issues was outstanding. There are several business issues outstanding.",
-        "action": "delete",
-        "index": [17],
-        "prompt": "There are several business issues outstanding. There are several business issues outstanding. There are several business issues was outstanding. There are several business issues outstanding."
-    },
-
-    14: {
-        "target_sentence": "Clinton on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe.",
-        "original_sentence": "Clinton on on the other hand, had backed a plan to convince Europe.",
-        "target": "Clinton on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe. Clinton on on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe.",
-        "action": "delete",
-        "index": [38],
-        "prompt": "Clinton on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe. Clinton on on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe. Clinton on the other hand, had backed a plan to convince Europe."
-    },
-
-    15: {
-        "target_sentence": "It was the best table conversation we have had in a long time about life. It was the best table conversation we have had in a long time about life. It was the best table conversation we have had in a long time about life. It was the best table conversation we have had in a long time about life. It was the best table conversation we have had in a long time about life.",
-        "original_sentence": "It was the best table conversation we have had in a long time time about life.",
-        "target": "It was the best table conversation we have had in a long time about life. It was the best table conversation we have had in a long time time about life. It was the best table conversation we have had in a long time about life. It was the best table conversation we have had in a long time about life. It was the best table conversation we have had in a long time about life.",
-        "action": "delete",
-        "index": [28],
-        "prompt": "It was the best table conversation we have had in a long time about life. It was the best table conversation we have had in a long time time about life. It was the best table conversation we have had in a long time about life. It was the best table conversation we have had in a long time about life. It was the best table conversation we have had in a long time about life."
-    },
-
-    16: {
-        "target_sentence": "If you need John speak quickly now. If you need John speak quickly now. If you need John speak quickly now. If you need John speak quickly now. If you need John speak quickly now. If you need John speak quickly now.",
-        "original_sentence": "If you need John speak now.",
-        "target": "If you need John speak quickly now. If you need John speak quickly now. If you need John speak quickly now. If you need John speak quickly now. If you need John speak quickly now. If you need John speak quickly now.",
-        "action": "add",
-        "index": [26],
-        "prompt": "If you need John speak quickly now. If you need John speak quickly now. If you need John speak quickly now. If you need John speak now. If you need John speak quickly now. If you need John speak quickly now."
-    },
-
-    17: {
-        "target_sentence": "Are things better for you at home tonight? Are things better for you at home tonight? Are things better for you at home tonight?",
-        "original_sentence": "Are things better for you tonight? Are things better for you at home tonight? Are things better for you at home tonight?",
-        "target": "Are things better for you at home tonight? Are things better for you at home tonight? Are things better for you at home tonight?",
-        "action": "add",
-        "index": [5, 6],
-        "prompt": "Are things better for you tonight? Are things better for you at home tonight? Are things better for you at home tonight?"
-    },
-
-    18: {
         "target_sentence": "The law enforcement has responsibility for the safety of the public. The law enforcement has responsibility for the safety of the public. The law enforcement has responsibility for the safety of the public. The law enforcement has responsibility for the safety of the public. The law enforcement has responsibility for the safety of the public.",
         "original_sentence": "The enforcement has responsibility for the safety of the public.",
         "target": "The law enforcement has responsibility for the safety of the public. The law enforcement has responsibility for the safety of the public. The law enforcement has responsibility for the safety of the public. The law enforcement has responsibility for the safety of the public. The law enforcement has responsibility for the safety of the public.",
         "action": "add",
         "index": [34],
         "prompt": "The law enforcement has responsibility for the safety of the public. The law enforcement has responsibility for the safety of the public. The law enforcement has responsibility for the safety of the public. The enforcement has responsibility for the safety of the public. The law enforcement has responsibility for the safety of the public."
-    },
-
-    19: {
-        "target_sentence": "A report thursday showed wholesale prices fell 0.1 percent in April. A report thursday showed wholesale prices fell 0.1 percent in April. A report thursday showed wholesale prices fell 0.1 percent in April. A report thursday showed wholesale prices fell 0.1 percent in April. A report thursday showed wholesale prices fell 0.1 percent in April.",
-        "original_sentence": "A report showed wholesale prices fell 0.1 percent in April.",
-        "target": "A report thursday showed wholesale prices fell 0.1 percent in April. A report thursday showed wholesale prices fell 0.1 percent in April. A report thursday showed wholesale prices fell 0.1 percent in April. A report thursday showed wholesale prices fell 0.1 percent in April. A report thursday showed wholesale prices fell 0.1 percent in April.",
-        "action": "add",
-        "index": [13],
-        "prompt": "A report thursday showed wholesale prices fell 0.1 percent in April. A report showed wholesale prices fell 0.1 percent in April. A report thursday showed wholesale prices fell 0.1 percent in April. A report thursday showed wholesale prices fell 0.1 percent in April. A report thursday showed wholesale prices fell 0.1 percent in April."
-    },
-
-    20: {
-        "target_sentence": "Please re-draft and let me know if there are further discrepancies. Please re-draft and let me know if there are further discrepancies.",
-        "original_sentence": "Please re-draft and let me know if there are discrepancies.",
-        "target": "Please re-draft and let me know if there are further discrepancies. Please re-draft and let me know if there are further discrepancies.",
-        "action": "add",
-        "index": [9],
-        "prompt": "Please re-draft and let me know if there are discrepancies. Please re-draft and let me know if there are further discrepancies."
-    },
-
-    21: {
-        "target_sentence": "This paper introduces Abacus Gestures, a comprehensive collection of 100 mid-air gestures. Drawing on the metaphor of Finger Abacus counting, gestures are formd from various combinations of open and closed fingers, each assigned different values. We developed an algorithm using an off-the-shelf computer vision library capable of detecting these gestures from a 2D commodity camera.",
-        "original_sentence": "This paper introduces Abacus Gestures, a comprehensive collection of 100 mid-air gestures. Drawing on the metaphor of Finger Abacus counting, gestures are formd from various combinations of open and closed fingers, each assigned different values. We developed an algorithm using an off-the-shelf computer vision library capable of detecting these gestures from a 2D commodity camera.",
-        "target": "This paper introduces Abacus Gestures, a comprehensive collection of 100 mid-air gestures. Drawing on the metaphor of Finger Abacus counting, gestures are formd from various combinations of open and closed fingers, each assigned different values. We developed an algorithm using an off-the-shelf computer vision library capable of detecting these gestures from a 2D commodity camera.",
-        "action": "add",
-        "index": [9],
-        "prompt": "This paper introduces Abacus Gestures, a comprehensive collection of 100 mid-air gestures. Drawing on the metaphor of Finger Abacus counting, gestures are formd from various combinations of open and closed fingers, each assigned different values. We developed an algorithm using an off-the-shelf computer vision library capable of detecting these gestures from a 2D commodity camera."
-    },
-
-    22: {
-        "target_sentence": "There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages.",
-        "original_sentence": "There were freqwuent electricity and water shortages.",
-        "target_word": "freqwuent",
-        "target": "There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages.",
-        "action": "replace",
-        "index": [23],
-        "prompt": "There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages. There were freqwuent electricity and water shortages. There were frequent electricity and water shortages. There were frequent electricity and water shortages."
     }
-
-
-    // 1: {
-    //     "target_sentence": "Time to go shopping for school. Time to go shopping for school. Time to go shopping for school. Time to go shopping for school. Time to go shopping for school.",
-    //     "original_sentence": "Time to go shipping for school.",
-    //     "target": "Time to go shopping for school. Time to go shopping for school. Time to go shopping for school. Time to go shopping for school. Time to go shopping for school.",
-    //     "action": "replace",
-    //     "index": [9],
-    //     "prompt": "Time to go shopping for school. Time to go shipping for school. Time to go shopping for school. Time to go shopping for school. Time to go shopping for school."
-    // },
-
-
-    // 3: {
-    //     "target_sentence": "I am going to school today. I am going to school today. I am going to school today.",
-    //     "original_sentence": "I am going to school today. I am going to school today. I am going to schol today.",
-    //     "target": "I am going to school today. I am going to school today. I am going to school today.",
-    //     "action": "replace",
-    //     "index": [16],
-    //     "prompt": "I am going to school today. I am going to school today. I am going to schol today."
-    // },
 }
-// var trial_order = [0];
-var trial_order = [18];
-//randomize trial order
-// for (let i = 0; i < Object.keys(dataset).length; i++) {
-//     trial_order.push(i);
-// }
 
-var trial_number = 0;
+let fingerCount = 0;
+let lastVideoTime = -1;
+let results = undefined;
+let currentData = dataset[trial_order[trial_number]];
+let tempData = "";
 
 
 var mapping = {};
-// var mapping = { 99: "ESC" };
 for (let i = 1; i <= 99; i++) {
     mapping[i] = i.toString();
 }
@@ -566,14 +285,6 @@ const createGestureRecognizer = async () => {
 
 createGestureRecognizer();
 
-var audio = document.getElementById('Audio');
-const video = document.getElementById("webcam");
-const canvasElement = document.getElementById("output_canvas");
-const canvasCtx = canvasElement.getContext("2d");
-const mainWindow = document.getElementById("main_window");
-const tergetContainer = document.getElementById("target_container");
-
-const beginBtn = document.getElementById("begin_btn");
 // Check if webcam access is supported.
 function hasGetUserMedia() {
     return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
@@ -583,14 +294,14 @@ function hasGetUserMedia() {
 // wants to activate it.
 if (hasGetUserMedia()) {
     // beginBtn = document.getElementById("begin_btn");
-    beginBtn.addEventListener("click", beginStudy);
+    beginBtn.addEventListener("click", beginProgram);
 } else {
     console.warn("getUserMedia() is not supported by your browser");
 }
 //   gestureRecognizer.setOptions({ num_hands: 2 });
 
 // Enable the live webcam view and start detection.
-function beginStudy(event) {
+function beginProgram(event) {
     if (!gestureRecognizer) {
         alert("Please wait for gestureRecognizer to load");
         return;
@@ -615,21 +326,6 @@ function beginStudy(event) {
     currentState = "task state";
     toTaskState();
 }
-
-
-let fingerCount = 0;
-let fingerCount_right = 0;
-let lastVideoTime = -1;
-let results = undefined;
-let currentData = dataset[trial_order[trial_number]];
-let tempData = ""
-console.log(trial_number)
-console.log(trial_number)
-console.log('-----------------------------')
-console.log(currentData)
-
-let failCount = 0;
-
 
 async function predictWebcam() {
     const webcamElement = document.getElementById("webcam");
@@ -704,18 +400,14 @@ async function predictWebcam() {
             }
             else {
                 fingerCount = DetectOneHand(results.landmarks, results.handednesses);
-                fingerCount_right = 100;
             }
         }
         let leftSum = 0;
         let rightSum = 0;
-
         if (isLeft) {
             leftSum = getFingerCounts(left_key_points_transformed, 'left');
             rightSum = getFingerCounts(right_key_points_transformed, 'right');
         }
-        //leftSum = leftSum;
-        //rightSum = rightSumTemp;
         fingerCount = leftSum + rightSum;
 
 
@@ -783,9 +475,6 @@ async function predictWebcam() {
                                 else if (parseInt(currentLetter) === 50) {
                                     deleteBtn.classList.remove("btn_highlight");
                                 }
-                                else if (parseInt(currentLetter) === 66) {
-                                    invokeLLMBtn.classList.remove("btn_highlight");
-                                }
                             }
 
                             if (currentState === "typing state") {
@@ -801,10 +490,6 @@ async function predictWebcam() {
                                     respeakBtn.classList.remove("btn_highlight");
                                 }
 
-                                else if (parseInt(currentLetter) === 66) {
-                                    invokeLLMBtn2.classList.remove("btn_highlight");
-                                }
-
                                 else if (parseInt(currentLetter) === 55) {
                                     spaceBtn.classList.remove("btn_highlight");
                                 }
@@ -815,21 +500,6 @@ async function predictWebcam() {
 
                                 else if (parseInt(currentLetter) >= 1 && parseInt(currentLetter) <= 26) {
                                     document.getElementById(`${keyboardMapping[currentLetter]}_btn`).classList.remove("btn_highlight");
-                                }
-                            }
-
-                            if (currentState === "suggestion state") {
-                                // command selection state
-                                if (parseInt(currentLetter) === 99) {
-                                    topRightBtn.classList.remove("btn_highlight");
-                                }
-
-                                else if (parseInt(currentLetter) === 90) {
-                                    topLeftBtn.classList.remove("btn_highlight");
-                                }
-
-                                else if (parseInt(currentLetter) >= 1 && parseInt(currentLetter) <= 5) {
-                                    document.getElementById(`sug${currentLetter}`).classList.remove("highlight");
                                 }
                             }
                         }
@@ -884,9 +554,6 @@ async function predictWebcam() {
                             else if (parseInt(currentLetter) === 50) {
                                 deleteBtn.classList.add("btn_highlight");
                             }
-                            else if (parseInt(currentLetter) === 66) {
-                                invokeLLMBtn.classList.add("btn_highlight");
-                            }
                         }
 
                         if (currentState === "typing state") {
@@ -902,10 +569,6 @@ async function predictWebcam() {
                                 respeakBtn.classList.add("btn_highlight");
                             }
 
-                            else if (parseInt(currentLetter) === 66) {
-                                invokeLLMBtn2.classList.add("btn_highlight");
-                            }
-
                             else if (parseInt(currentLetter) === 55) {
                                 spaceBtn.classList.add("btn_highlight");
                             }
@@ -919,26 +582,7 @@ async function predictWebcam() {
                             }
                         }
 
-                        if (currentState === "suggestion state") {
-                            // command selection state
-                            if (parseInt(currentLetter) === 99) {
-                                topRightBtn.classList.add("btn_highlight");
-                            }
-
-                            else if (parseInt(currentLetter) === 90) {
-                                topLeftBtn.classList.add("btn_highlight");
-                            }
-
-                            else if (parseInt(currentLetter) >= 1 && parseInt(currentLetter) <= 5) {
-                                document.getElementById(`sug${currentLetter}`).classList.add("highlight");
-                            }
-                        }
-
-                        let wordlist = typedSentence.split(" ");
                         let temp = parseInt(currentLetter);
-                        let start = Math.floor(temp / 10);
-                        let end = temp % 10;
-                        let length = typedSentence.split(' ').length + 1;
                     }
                 }
             }
@@ -965,8 +609,6 @@ async function predictWebcam() {
 
                             // calculating selection metrics
                             startTime = window.performance.now();
-                            console.log('starting trial')
-                            console.log('starting selection')
                         }
                     }
 
@@ -989,7 +631,6 @@ async function predictWebcam() {
                             endTime = window.performance.now();
                             selectionTries += 1;
                             selectionTime = (endTime - startTime) / 1000;
-                            console.log(`selectionTime: ${selectionTime}`)
                             selectedIndex = parseInt(currentLetter);
                         }
                     }
@@ -1015,7 +656,6 @@ async function predictWebcam() {
                             endTime = window.performance.now();
                             selectionTries += 1;
                             selectionTime = (endTime - startTime) / 1000;
-                            console.log(`selectionTime: ${selectionTime}`)
                             selectedIndex2 = parseInt(currentLetter);
                         }
                     }
@@ -1058,15 +698,8 @@ async function predictWebcam() {
 
                         if (parseInt(currentLetter) === 55 || parseInt(currentLetter) === 5) {
                             // implement replace selection
-                            error_sentence = "";
                             currentState = "speak type state";
                             toSpeakTypeState();
-                        }
-
-                        if (parseInt(currentLetter) === 66) {
-                            // implement invoke LLM
-                            invokeLLMBtn.classList.remove("btn_highlight");
-                            currentState = "suggestion call state";
                         }
                     }
 
@@ -1169,10 +802,6 @@ async function predictWebcam() {
                             toFirstSelectionState();
                         }
 
-                        if (parseInt(currentLetter) === 66) {
-                            invokeLLMBtn.classList.add("btn_highlight");
-                        }
-
                         if (parseInt(currentLetter) === 60) {
                             tempData = currentData["prompt"]
                             let wordlist = currentData["prompt"].split(' ');
@@ -1188,49 +817,6 @@ async function predictWebcam() {
                             toSpeakTypeState();
                         }
                     }
-
-                    if (currentState === "suggestion state") {
-                        // command selection state
-                        if (parseInt(currentLetter) === 99) {
-                            // implement undo 
-                            document.getElementById('prompt').innerHTML = processPrompt(currentData["prompt"]);
-                            document.getElementById(`${selectedIndex}`).classList.add("selected");
-                            currentState = "command selection state";
-                            toCommandSelectionState();
-                        }
-
-                        else if (parseInt(currentLetter) === 90) {
-                            if (selectedSuggestion === "") {
-                                tempData = currentData["prompt"]
-                                // let wordlist = currentData["prompt"].split(' ');
-                                // let word = wordlist[selectedIndex - 1];
-                                // replaceText(word, selectedIndex, selectedIndex2);
-                                if (selectedIndex2 !== null && selectedIndex2 !== undefined) {
-                                    // Select range of text
-                                    let selectedText = wordlist.slice(selectedIndex - 1, selectedIndex2).join(' ');
-                                    replaceText(selectedText, selectedIndex, selectedIndex2);
-                                } else {
-                                    // Select single word
-                                    let word = wordlist[selectedIndex - 1];
-                                    replaceText(word, selectedIndex);
-                                }
-                            }
-                            else {
-                                replaceText(selectedSuggestion, selectedIndex, selectedIndex2);
-                            }
-                            selectedSuggestion = "";
-                            currentState = "first selection state";
-                            toFirstSelectionState();
-                        }
-
-                        else if (parseInt(currentLetter) >= 1 && parseInt(currentLetter) <= 5) {
-                            selectedSuggestion = suggestionList[parseInt(currentLetter) - 1];
-                            tempData = currentData["prompt"]
-                            replaceTextTemp(selectedSuggestion, selectedIndex, selectedIndex2);
-                            document.getElementById(`sug${currentLetter}`).classList.remove("highlight");
-                        }
-                    }
-
                 }
                 currentLetter = null;
                 tempLetter = null;
@@ -1291,21 +877,6 @@ async function predictWebcam() {
             }
 
         }
-
-        if (currentState === "suggestion call state") {
-            suggestionList = []
-            generateCorrectionSuggestions(currentData["original_sentence"], currentData["prompt"][selectedIndex - 1]);
-            currentState = "suggestion waiting state";
-        }
-
-        if (currentState === "suggestion waiting state") {
-            if (suggestionList.length > 0) {
-
-                currentState = "suggestion state";
-                toSuggestionState();
-            }
-
-        }
     }
 
     // Call this function again to keep predicting when the browser is ready.
@@ -1349,7 +920,6 @@ function recognizeSpeech() {
             const transcript = event.results[0][0].transcript;
             recognizedSpeech = transcript.toLowerCase();
             console.log("Did you say ", recognizedSpeech);
-            // document.getElementById("mic_img").style.visibility = "hidden";
         };
 
         recognition.onend = () => {
@@ -1372,57 +942,6 @@ function recognizeSpeech() {
     }
 }
 
-function generateCorrectionSuggestions(text, targetWord) {
-    const apiKey = 'sk-*';
-    const apiUrl = 'https://api.openai.com/v1/chat/completions';
-
-    const message = `I will give a TEXT and a TARGET WORD in that text that needs correction. You will provide exactly 5 correction suggestion to correct sentence. If there is any typo, you must keep the corrected version in the suggestion in the first place. You must make sure replacing the target word with any suggestion will produce a valid and semantically meaningful sentence. Your output must be only the comma separated list of suggestions and nothing else.
-
-    TEXT:
-    I will thank to you soon, Theresa.
-    TARGET WORD : 
-    thank
-    SUGGESTIONS: 
-    talk, go, write, read, give
-
-    TEXT: 
-    The senate would rewuire them to create a US subsidaiary.
-    TARGET WORD : 
-    rewuire
-    SUGGESTIONS: 
-    require, need, demand, ask, command
-
-    TEXT: 
-    ${text}
-    TARGET WORD : 
-    ${targetWord}
-    SUGGESTIONS:
-
-    `
-
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({
-            model: 'gpt-4o',
-            messages: [{ role: 'user', content: message }]
-        })
-    };
-
-    fetch(apiUrl, requestOptions)
-        .then(response => response.json())
-        .then(data => {
-            let response = data.choices[0].message.content;
-            suggestionList = response.split(',').map(item => item.trim());;
-            console.log('ChatGPT response:', data.choices[0].message.content);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
 
 const frameWidth = 640;
 const frameHeight = 480;
@@ -1431,31 +950,12 @@ function playBeep() {
     audio.play();
 }
 
-function create_superscript(sentence) {
-    let wordlist = sentence.split(' ');
-    let res = "";
-    for (let i = 0; i < wordlist.length; i++) {
-        let x = `<sup style="background-color: gray">${i + 1}</sup>`;
-        // let superb = x.sup();    
-        //const wordWithSuperscript = `${wordlist[i]}<sup>${i + 1}</sup>`;
-        res += `${wordlist[i]}`;
-        res += x;
-        //wordlist[i] = wordlist[i]${sup.sup()};
-        //result += `${wordWithSuperscript} `;
-    }
-    //res = wordlist.join(' ');
-    // textArea.innerText = res;
-    return res;
-}
-
-
 function strDiff(str1, str2) {
     let diff = 0;
     let biggerStr = str1.length > str2.length ? str1 : str2;
     let smallerStr = str1.length > str2.length ? str2 : str1;
     for (let i = 0; i < smallerStr.length; i++) {
         if (smallerStr[i] !== biggerStr[i]) {
-            // console.log(i, smallerStr[i], biggerStr[i]);
         }
     }
 }
@@ -1473,29 +973,9 @@ function DetectOneHand(landmarks, hands) {
         fingerCount = fingerCount * 10;
     }
     return fingerCount;
-    //canvasCtx.fillText(`Fingers: ${fingerCount}`, 10, 40);
-    //console.log(fingerCount);
 }
 
 function DetectMultipleHand(landmark, hands) {
-    // const thumbIsOpen = landmarks[0][4].x < landmarks[0][3].x;
-    // const indexIsOpen = landmarks[0][8].y < landmarks[0][6].y;
-    // const middleIsOpen = landmarks[0][12].y < landmarks[0][10].y;
-    // const ringIsOpen = landmarks[0][16].y < landmarks[0][14].y;
-    // const littleIsOpen = landmarks[0][20].y < landmarks[0][18].y; 
-    // const fingerStates = [thumbIsOpen, indexIsOpen, middleIsOpen, ringIsOpen, littleIsOpen];
-    // let fingerCount1 = fingerStates.filter(state => state).length;
-
-    // const thumbIsOpenOther = landmarks[1][4].x < landmarks[1][3].x;
-    // const indexIsOpenOther = landmarks[1][8].y < landmarks[1][6].y;
-    // const middleIsOpenOther = landmarks[1][12].y < landmarks[1][10].y;
-    // const ringIsOpenOther = landmarks[1][16].y < landmarks[1][14].y;
-    // const littleIsOpenOther = landmarks[1][20].y < landmarks[1][18].y; 
-    // const fingerStatesOther = [thumbIsOpenOther, indexIsOpenOther, middleIsOpenOther, ringIsOpenOther, littleIsOpenOther];
-    // let fingerCount2 =  fingerStatesOther.filter(state => state).length;
-    // console.log(fingerCount1, fingerCount2);
-    // let fingerCount3 = 10*fingerCount1 + fingerCount2;
-    let leftSum = 0, rightSum = 0;
 
     let left_hand_points = []
     let right_hand_points = []
@@ -1526,15 +1006,7 @@ function DetectMultipleHand(landmark, hands) {
         right_key_points_transformed = transformPoints(right_hand_points);
 
     }
-    //console.log(left_key_points_transformed)
-    //const [leftCount, leftSumTemp, leftMsgTemp] = getFingerCounts(left_key_points_transformed, 'left');
-    //const [rightCount, rightSumTemp, rightMsgTemp] = getFingerCounts(right_key_points_transformed, 'right');
-    //leftSum = leftSumTemp;
-    //rightSum = rightSumTemp;
-    //const sum = leftSum + rightSum;
     return [left_key_points_transformed, right_key_points_transformed];
-
-
 }
 
 function transformPoints(keypoints) {
@@ -1578,8 +1050,6 @@ function transform(x, y, a, org) {
 
 function matrixMultiply(a, b) {
     const result = new Array(a.length);
-    // console.log(a)
-    // console.log(b)
     for (let i = 0; i < a.length; i++) {
         result[i] = new Array(b[0].length);
         for (let j = 0; j < b[0].length; j++) {
@@ -1649,13 +1119,6 @@ function getFingerCounts(handLandmarks, label) {
     return sum;
 }
 
-function TextToSpeech(text) {
-    var msg = new SpeechSynthesisUtterance();
-    msg.text = text;
-    window.speechSynthesis.speak(msg);
-
-}
-
 
 function processTarget(prompt, index, action) {
     var prompt_list = prompt.split(" ");
@@ -1704,34 +1167,6 @@ function processPromptDelete(prompt, index1, index2) {
     return html_prompt;
 }
 
-// function processPromptReplace(prompt, index) {
-//     var prompt_list = prompt.split(" ");
-//     var html_prompt = "";
-//     for (var i = 0; i < prompt_list.length; i++) {
-//         if (index === i + 1) {
-//             html_prompt += `<span id="${i + 1}" class="selected">${prompt_list[i]}<sup style="visibility: hidden">${i + 1}</sup></span> `
-//         }
-//         else {
-//             html_prompt += `<span id="${i + 1}">${prompt_list[i]}<sup style="visibility: hidden">${i + 1}</sup></span> `;
-//         }
-//     }
-//     return html_prompt;
-// }
-
-// function processPromptReplace(prompt, index1, index2 = null) {
-//     var prompt_list = prompt.split(" ");
-//     var html_prompt = "";
-//     for (var i = 0; i < prompt_list.length; i++) {
-//         if ((index2 === null && i === index1) || (index2 !== null && i >= index1 && i < index2)) {
-//             html_prompt += `<span id="${i + 1}" class="selected">${prompt_list[i]}<sup style="visibility: hidden">${i + 1}</sup></span> `
-//         }
-//         else {
-//             html_prompt += `<span id="${i + 1}">${prompt_list[i]}<sup style="visibility: hidden">${i + 1}</sup></span> `;
-//         }
-//     }
-//     return html_prompt;
-// }
-
 function processPromptReplace(prompt, startIndex, newText) {
     var prompt_list = prompt.split(" ");
     var html_prompt = "";
@@ -1747,24 +1182,6 @@ function processPromptReplace(prompt, startIndex, newText) {
     }
     return html_prompt;
 }
-
-// function processPromptInsert(prompt, index) {
-//     var prompt_list = prompt.split(" ");
-//     var html_prompt = "";
-//     console.log(index);
-//     for (var i = 0; i < prompt_list.length; i++) {
-//         if (index === i + 1) {
-//             html_prompt += `<span id="${i + 1}" class="last-edited">${prompt_list[i]}<sup style="visibility: hidden">${i + 1}</sup></span> `
-//         }
-//         else if (index + 1 === i + 1) {
-//             html_prompt += `<span id="${i + 1}" class="selected">${prompt_list[i]}<sup style="visibility: hidden">${i + 1}</sup></span> `
-//         }
-//         else {
-//             html_prompt += `<span id="${i + 1}">${prompt_list[i]}<sup style="visibility: hidden">${i + 1}</sup></span> `;
-//         }
-//     }
-//     return html_prompt;
-// }
 
 function processPromptInsert(prompt, startIndex, insertedWordCount, originalInsertedText) {
     var prompt_list = prompt.split(" ");
@@ -1798,12 +1215,6 @@ function insertText(text, index) {
     document.getElementById("prompt").innerHTML = processPrompt(currentData["prompt"]);
 }
 
-// function insertTextTemp(text, index) {
-//     let wordlist = currentData["prompt"].split(' ');
-//     wordlist.splice(index - 1, 0, text);
-//     document.getElementById("prompt").innerHTML = processPromptInsert(wordlist.join(' '), index);
-// }
-
 function insertTextTemp(text, index) {
     let wordlist = currentData["prompt"].split(' ');
     let insertedWords = text.split(' ');
@@ -1811,42 +1222,21 @@ function insertTextTemp(text, index) {
     document.getElementById("prompt").innerHTML = processPromptInsert(wordlist.join(' '), index, insertedWords.length, text);
 }
 
-// function replaceText(text, index) {
-//     console.log(text, index);
-//     let wordlist = currentData["prompt"].split(' ');
-//     wordlist[index - 1] = text;
-//     currentData["prompt"] = wordlist.join(' ');
-//     // console.log(currentData["prompt"], currentData["prompt"].length);
-//     // console.log(currentData["target_sentence"], currentData["target_sentence"].length);
-//     strDiff(currentData["prompt"], currentData["target_sentence"])
-//     document.getElementById("prompt").innerHTML = processPrompt(currentData["prompt"]);
-// }
 
 function replaceText(text, index1, index2 = null) {
     console.log(text, index1, index2);
     let wordlist = currentData["prompt"].split(' ');
 
-    // Adjust index1 for zero-based array
     index1 = Math.max(0, index1 - 1);
 
     if (index2 === null) {
-        // If only one index is provided, replace just that word
         wordlist[index1] = text;
     } else {
-        // If two indices are provided, replace range
-
-        // Ensure index1 is smaller than index2
         if (index1 > index2 - 1) {
             [index1, index2] = [index2 - 1, index1 + 1];
         }
-
-        // Adjust index2 for zero-based array and bounds
         index2 = Math.min(wordlist.length, index2);
-
-        // Calculate number of elements to replace
         const numToReplace = index2 - index1;
-
-        // Replace the words with the new text
         wordlist.splice(index1, numToReplace, text);
     }
 
@@ -1856,37 +1246,18 @@ function replaceText(text, index1, index2 = null) {
 }
 
 
-// function replaceTextTemp(text, index) {
-//     let wordlist = tempData.split(' ');
-//     wordlist[index - 1] = text;
-//     tempData = wordlist.join(' ');
-//     document.getElementById("prompt").innerHTML = processPromptReplace(tempData, index);
-// }
-
 function replaceTextTemp(text, index1, index2 = null) {
     let wordlist = tempData.split(' ');
-
-    // Adjust index1 for zero-based array
     index1 = Math.max(0, index1 - 1);
 
     if (index2 === null) {
-        // If only one index is provided, replace just that word
         wordlist.splice(index1, 1, text);
     } else {
-        // If two indices are provided, replace range
-
-        // Ensure index1 is smaller than index2
         if (index1 > index2 - 1) {
             [index1, index2] = [index2 - 1, index1 + 1];
         }
-
-        // Adjust index2 for zero-based array and bounds
         index2 = Math.min(wordlist.length, index2);
-
-        // Calculate number of elements to replace
         const numToReplace = index2 - index1;
-
-        // Replace the words with the new text
         wordlist.splice(index1, numToReplace, text);
     }
 
@@ -1895,38 +1266,18 @@ function replaceTextTemp(text, index1, index2 = null) {
 }
 
 
-// function deleteText(index) {
-//     let wordlist = currentData["prompt"].split(' ');
-//     wordlist.splice(index - 1, 1);
-//     currentData["prompt"] = wordlist.join(' ');
-//     strDiff(currentData["prompt"], currentData["target_sentence"])
-//     document.getElementById("prompt").innerHTML = processPrompt(currentData["prompt"]);
-// }
-
 function deleteText(index1, index2 = null) {
     let wordlist = currentData["prompt"].split(' ');
-
-    // Adjust index1 for zero-based array
     index1 = Math.max(0, index1 - 1);
 
     if (index2 === null) {
-        // If only one index is provided, delete just that word
         wordlist.splice(index1, 1);
     } else {
-        // If two indices are provided, delete range
-
-        // Ensure index1 is smaller than index2
         if (index1 > index2 - 1) {
             [index1, index2] = [index2 - 1, index1 + 1];
         }
-
-        // Adjust index2 for zero-based array and bounds
         index2 = Math.min(wordlist.length, index2);
-
-        // Calculate number of elements to remove
         const numToRemove = index2 - index1;
-
-        // Remove the words
         wordlist.splice(index1, numToRemove);
     }
 

@@ -25,7 +25,7 @@ limitations under the License. -->
 
 <body>
 
-    <button id="begin_btn">Begin Study</button>
+    <button id="begin_btn">Try Numero Motor Correct!</button>
     <div id="main_window" style="visibility: hidden; width: 99%; padding: 5px;">
         <div>
             <div id="navigation" style="display: none;justify-content: space-between;">
@@ -63,25 +63,6 @@ limitations under the License. -->
                 <button id="replace_btn">Replace<sup>55</sup></button>
                 <button id="insert_btn">Insert<sup>5</sup></button>
             </div>
-            <div id="command_group2"
-                style="visibility: hidden; display:none ; justify-content: space-evenly; margin: 5px;">
-                <button id="invoke_llm_btn" style=" background-color: none">Invoke LLM<sup>66</sup></button>
-            </div>
-
-            <div style="visibility: visible; display: flex; justify-content: center;margin: 5px;">
-                <div id="suggestion_group">
-                    <span id="sug1" class="suggestion"><sup>1
-                        </sup></span>
-                    <span id="sug2" class="suggestion"><sup>2
-                        </sup></span>
-                    <span id="sug3" class="suggestion"><sup>3
-                        </sup></span>
-                    <span id="sug4" class="suggestion"><sup>4
-                        </sup></span>
-                    <span id="sug5" class="suggestion"><sup>5
-                        </sup></span>
-                </div>
-            </div>
 
             <div style="visibility: visible; display: block; justify-content: center;margin: 5px;">
 
@@ -95,9 +76,6 @@ limitations under the License. -->
                             <i class="fas fa-microphone" style="width: 20px;height: 30px;"></i>
                         </div>
                         <button id="respeak_btn" style="width: 200px">Re-speak<sup>60</sup></button>
-                        <button id="invoke_llm_btn2"
-                            style="visibility: hidden; display: none; width: 240px; margin-left: 5px">Invoke
-                            LLM<sup>66</sup></button>
                     </div>
                 </div>
 
@@ -145,21 +123,15 @@ limitations under the License. -->
                 </div>
             </div>
 
-            <!-- <div style="display: none; display: flex; justify-content: center;margin: 5px;">
-            <div id="textarea" style="font-size: 20px; font-family: consolas;">Gesture 0</div>
-        </div> -->
-
 
             <div id="liveView" class="videoView" style="display: flex; justify-content: space-evenly;">
                 <div style="position: relative;">
                     <video id="webcam" autoplay playsinline style="visibility: hidden;"></video>
                     <canvas class="output_canvas" id="output_canvas" width="480" height="360"
                         style="position: absolute; left: 0px; top: 0px;"></canvas>
-                    <!-- <p id='gesture_output' class="output"> -->
                 </div>
 
             </div>
-            <!-- <button id="print_btn">Print Log</button> -->
         </div>
 
 </body>
