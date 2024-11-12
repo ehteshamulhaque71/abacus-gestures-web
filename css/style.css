@@ -1,0 +1,289 @@
+/* Copyright 2023 The MediaPipe Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. */
+
+
+body {
+  /* font-family: roboto;
+  margin: 2em;
+  color: #3d3d3d;
+  --mdc-theme-primary: #007f8b;
+  --mdc-theme-on-primary: #f1f3f4; */
+  /* display: flex; */
+  /* justify-content: center; */
+}
+
+/* h1 {
+  color: #007f8b;
+}
+
+h2 {
+  clear: both;
+}
+
+video {
+  clear: both;
+  display: block;
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  height: 280px;
+}
+
+section {
+  opacity: 1;
+  transition: opacity 500ms ease-in-out;
+}
+
+.removed {
+  display: none;
+}
+
+.invisible {
+  opacity: 0.2;
+}
+
+.detectOnClick {
+  position: relative;
+  float: left;
+  width: 48%;
+  margin: 2% 1%;
+  cursor: pointer;
+} */
+/* .videoView {
+  position: absolute;
+  float: left;
+  width: 48%;
+  margin: 2% 1%;
+  cursor: pointer;
+  min-height: 500px;
+} */
+
+/* .videoView p,
+.detectOnClick p {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #007f8b;
+  color: #fff;
+  border: 1px dashed rgba(255, 255, 255, 0.7);
+  z-index: 2;
+  margin: 0;
+} */
+
+/* .highlighter {
+  background: rgba(0, 255, 0, 0.25);
+  border: 1px dashed #fff;
+  z-index: 1;
+  position: absolute;
+}
+
+
+
+.detectOnClick {
+  z-index: 0;
+  font-size: calc(8px + 1.2vw);
+}
+
+.detectOnClick img {
+  width: 45vw;
+}
+.output {
+  display: none;
+  width: 100%;
+  font-size: calc(8px + 1.2vw);
+} */
+
+.canvas {
+  z-index: 1;
+  position: absolute;
+  pointer-events: none;
+}
+
+
+/* .output_canvas {
+
+} */
+
+.output_canvas {
+  border: 2px solid gainsboro;
+  /* transform: rotateY(180deg);
+      -webkit-transform: rotateY(180deg);
+      -moz-transform: rotateY(180deg); */
+}
+
+
+.add {
+  background-color: yellow;
+}
+
+.highlight {
+  background-color: cyan;
+}
+
+.selected {
+  background-color: cyan;
+  border: 1px solid red;
+  /* display: block; */
+
+}
+
+#main_window {
+  width: 80.5%;
+  padding: 5px;
+}
+
+button {
+  font-size: 20px;
+  font-family: consolas;
+  /* font-weight: bold; */
+}
+
+sup {
+  font-size: 15px;
+  font-family: consolas;
+  /* font-weight: bold; */
+}
+
+p {
+  font-size: 21px;
+  font-family: consolas;
+  font-weight: bold;
+}
+
+video {
+  clear: both;
+  display: block;
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+}
+
+
+
+
+
+.delete {
+  background-color: yellow;
+  text-decoration: line-through;
+}
+
+.replace {
+  background-color: yellow;
+}
+
+#keyboard_layout {
+  display: flex;
+  justify-content: center;
+  margin: 3px;
+}
+
+.keyboard_key {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 40px;
+  margin: 1px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 22px;
+  font-weight: bold;
+  background-color: #f2f2f2;
+  cursor: pointer;
+}
+
+.keyboard_key sup {
+  font-size: 18px;
+  /* margin-left: 2px; */
+  position: relative;
+  top: -10px;
+  right: 2px;
+}
+
+#keyboard_text_area {
+  font-size: 20px;
+  font-family: consolas;
+  height: 30px;
+}
+
+#keyboard_text_area {
+  font-size: 20px;
+  font-family: consolas;
+  height: 30px;
+  width: 90%;
+}
+
+.mic-icon {
+  margin-left: 10px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+.mic-icon.active {
+  color: #ff0000;
+}
+
+.textarea-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 50%;
+  padding: 5px;
+  background-color: #f5f5f5;
+  border-radius: 25px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#suggestion_group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  ;
+  padding: 5px;
+  background-color: #ffffff;
+  border-radius: 25px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  font-family: consolas;
+  font-size: 20px;
+
+}
+
+#suggestion_group sup {
+  font-size: 18px;
+  /* margin-left: 2px; */
+  position: relative;
+  top: -2px;
+  right: 0px;
+}
+
+.suggestion {
+  padding: 0 10px;
+  border-right: 1px solid #cccccc;
+}
+
+.suggestion:last-child {
+  border-right: none;
+}
+
+.btn_highlight {
+  background-color: green;
+}
+
+
+.last-edited {
+  background-color: green;
+}

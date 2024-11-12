@@ -1,0 +1,167 @@
+<!-- Copyright 2023 The MediaPipe Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="css/style.css" rel="stylesheet">
+    <audio id="Audio">
+        <source src="assets/beep.mp3" type="audio/mpeg">
+    </audio>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script type="module" src="js/text-correction.js"></script>
+</head>
+
+<body>
+
+    <button id="begin_btn">Begin Study</button>
+    <div id="main_window" style="visibility: hidden; width: 99%; padding: 5px;">
+        <div>
+            <div id="navigation" style="display: none;justify-content: space-between;">
+                <button id="back_btn">Back<sup>99</sup></button>
+                <button id="start_btn">Start<sup>22</sup></button>
+            </div>
+
+            <div id="status" style="display: flex;justify-content: center; visibility: hidden;">
+                <span style="color: green; font-size: 20px;">Success!</span>
+            </div>
+
+            <div>
+                <div id="target_container">
+                    <h4 style="font-size: 25px; color: black; font-weight: bold; margin: 0px;">Target Text:</h4>
+                    <p id="target" style="border: 0px dotted gray; color: gray; margin: 0px;"></p>
+                </div>
+                <div>
+                    <div style="display: flex; justify-content: space-between">
+                        <h3 style="font-size: 25px; font-weight: bold; margin-bottom: 0px;">Prompt: </h3>
+                        <div>
+                            <button id="top-left-btn" style="height: 35px">Show Numbers<sup>90</sup></button>
+                            <button id="top-right-btn" style="height: 35px;">Undo<sup>99</sup></button>
+                        </div>
+
+                    </div>
+                    <p id="prompt" style="border: 0px dotted black;margin-top: 0px;"></p>
+                </div>
+            </div>
+
+            <hr style="color: gray">
+
+            <div id="command_group1"
+                style="visibility: visible; display: flex; justify-content: space-evenly;margin: 5px;">
+                <button id="delete_btn">Delete<sup>50</sup></button>
+                <button id="replace_btn">Replace<sup>55</sup></button>
+                <button id="insert_btn">Insert<sup>5</sup></button>
+            </div>
+            <div id="command_group2"
+                style="visibility: hidden; display:none ; justify-content: space-evenly; margin: 5px;">
+                <button id="invoke_llm_btn" style=" background-color: none">Invoke LLM<sup>66</sup></button>
+            </div>
+
+            <div style="visibility: visible; display: flex; justify-content: center;margin: 5px;">
+                <div id="suggestion_group">
+                    <span id="sug1" class="suggestion"><sup>1
+                        </sup></span>
+                    <span id="sug2" class="suggestion"><sup>2
+                        </sup></span>
+                    <span id="sug3" class="suggestion"><sup>3
+                        </sup></span>
+                    <span id="sug4" class="suggestion"><sup>4
+                        </sup></span>
+                    <span id="sug5" class="suggestion"><sup>5
+                        </sup></span>
+                </div>
+            </div>
+
+            <div style="visibility: visible; display: block; justify-content: center;margin: 5px;">
+
+                <div id="textarea_group"
+                    style="visibility: visible; display: flex; justify-content: center;margin: 5px;">
+                    <div class="textarea-container" style="padding-left: 7px;">
+                        <textarea id="keyboard_text_area"
+                            style="width: 95%; border: none; border-radius: 10px;"></textarea>
+                        <div id="mic_icon" class="mic-icon active"
+                            style="height: 25px;margin-top: 5px; margin-right: 5px;">
+                            <i class="fas fa-microphone" style="width: 20px;height: 30px;"></i>
+                        </div>
+                        <button id="respeak_btn" style="width: 200px">Re-speak<sup>60</sup></button>
+                        <button id="invoke_llm_btn2"
+                            style="visibility: hidden; display: none; width: 240px; margin-left: 5px">Invoke
+                            LLM<sup>66</sup></button>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: center">
+                    <div id="keyboard_group"
+                        style="display: block;background-color: #f0f0f0; width: auto; border-radius: 20px">
+
+                        <div id="keyboard_layout" style=" display: flex; justify-content: center;">
+                            <button class="keyboard_key" id="a_btn">a<sup>1</sup></button>
+                            <button class="keyboard_key" id="b_btn">b<sup>2</sup></button>
+                            <button class="keyboard_key" id="c_btn">c<sup>3</sup></button>
+                            <button class="keyboard_key" id="d_btn">d<sup>4</sup></button>
+                            <button class="keyboard_key" id="e_btn">e<sup>5</sup></button>
+                            <button class="keyboard_key" id="f_btn">f<sup>6</sup></button>
+                            <button class="keyboard_key" id="g_btn">g<sup>7</sup></button>
+                            <button class="keyboard_key" id="h_btn">h<sup>8</sup></button>
+                            <button class="keyboard_key" id="i_btn">i<sup>9</sup></button>
+                            <button class="keyboard_key" id="j_btn">j<sup>10</sup></button>
+                            <button class="keyboard_key" id="k_btn">k<sup>11</sup></button>
+                            <button class="keyboard_key" id="l_btn">l<sup>12</sup></button>
+                            <button class="keyboard_key" id="m_btn">m<sup>13</sup></button>
+                            <button class="keyboard_key" id="n_btn">n<sup>14</sup></button>
+                            <button class="keyboard_key" id="o_btn">o<sup>15</sup></button>
+                            <button class="keyboard_key" id="p_btn">p<sup>16</sup></button>
+                            <button class="keyboard_key" id="q_btn">q<sup>17</sup></button>
+                            <button class="keyboard_key" id="r_btn">r<sup>18</sup></button>
+                            <button class="keyboard_key" id="s_btn">s<sup>19</sup></button>
+                            <button class="keyboard_key" id="t_btn">t<sup>20</sup></button>
+                            <button class="keyboard_key" id="u_btn">u<sup>21</sup></button>
+                            <button class="keyboard_key" id="v_btn">v<sup>22</sup></button>
+                            <button class="keyboard_key" id="w_btn">w<sup>23</sup></button>
+                            <button class="keyboard_key" id="x_btn">x<sup>24</sup></button>
+                            <button class="keyboard_key" id="y_btn">y<sup>25</sup></button>
+                            <button class="keyboard_key" id="z_btn">z<sup>26</sup></button>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-evenly;margin: 5px;">
+                            <button id="backspace_btn" class="keyboard_key"
+                                style="width: 200px;">Backspace<sup>50</sup></button>
+                            <button id="space_btn" class="keyboard_key"
+                                style="width: 200px;">Space<sup>55</sup></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div style="display: none; display: flex; justify-content: center;margin: 5px;">
+            <div id="textarea" style="font-size: 20px; font-family: consolas;">Gesture 0</div>
+        </div> -->
+
+
+            <div id="liveView" class="videoView" style="display: flex; justify-content: space-evenly;">
+                <div style="position: relative;">
+                    <video id="webcam" autoplay playsinline style="visibility: hidden;"></video>
+                    <canvas class="output_canvas" id="output_canvas" width="480" height="360"
+                        style="position: absolute; left: 0px; top: 0px;"></canvas>
+                    <!-- <p id='gesture_output' class="output"> -->
+                </div>
+
+            </div>
+            <!-- <button id="print_btn">Print Log</button> -->
+        </div>
+
+</body>
+
+</html>
